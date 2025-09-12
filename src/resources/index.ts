@@ -1,0 +1,12 @@
+// Export all resource classes
+export { LeaguesResource } from './leagues'
+export { TeamsResource } from './teams'
+export { PlayersResource } from './players'
+export { StandingsResource } from './standings'
+export { LivescoresResource } from './livescores'
+export { CoachesResource } from './coaches'
+export { RefereesResource } from './referees'
+export { TransfersResource } from './transfers'
+export { VenuesResource } from './venues'
+export { NewsResource } from './news'
+export { FixturesResource } from './fixtures'
