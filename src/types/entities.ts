@@ -70,6 +70,7 @@ export interface Season {
   coaches?: Coach[]
   players?: Player[]
   rounds?: Round[]
+  aggregates?: [] | null
 }
 
 /**

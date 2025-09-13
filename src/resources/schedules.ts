@@ -1,6 +1,6 @@
 import { BaseResource } from '../core/base-resource'
 import { QueryBuilder } from '../core/query-builder'
-import { PaginatedResponse, SingleResponse, Season } from '../types'
+import { SingleResponse, Season } from '../types'
 
 /**
  * Seasons resource for SportMonks Football API
@@ -21,8 +21,8 @@ export class SchedulesResource extends BaseResource {
    * @param teamId - The team ID
    * @returns QueryBuilder for chaining
    */
-  byTeamId(teamId: string | number): QueryBuilder<PaginatedResponse<Season>> {
-    return new QueryBuilder<PaginatedResponse<Season>>(this, `/teams/${teamId}`)
+  byTeamId(teamId: string | number): QueryBuilder<SingleResponse<Season>> {
+    return new QueryBuilder<SingleResponse<Season>>(this, `/teams/${teamId}`)
   }
 
   /**
@@ -31,7 +31,7 @@ export class SchedulesResource extends BaseResource {
    * @param seasonID - The season ID
    * @returns QueryBuilder for chaining
    */
-  ByTeamAndSeasonId(teamID: string | number, seasonID: string | number): QueryBuilder<PaginatedResponse<Season>> {
-    return new QueryBuilder<PaginatedResponse<Season>>(this, `/seasons/${seasonID}/teams/${teamID}`)
+  ByTeamAndSeasonId(teamID: string | number, seasonID: string | number): QueryBuilder<SingleResponse<Season>> {
+    return new QueryBuilder<SingleResponse<Season>>(this, `/seasons/${seasonID}/teams/${teamID}`)
   }
 }

@@ -29,8 +29,8 @@ export class SeasonsResource extends BaseResource {
    * @param teamId - The team ID
    * @returns QueryBuilder for chaining
    */
-  byTeamId(teamId: string | number): QueryBuilder<PaginatedResponse<Season>> {
-    return new QueryBuilder<PaginatedResponse<Season>>(this, `/teams/${teamId}`)
+  byTeamId(teamId: string | number): QueryBuilder<SingleResponse<Season>> {
+    return new QueryBuilder<SingleResponse<Season>>(this, `/teams/${teamId}`)
   }
 
   /**
@@ -38,8 +38,8 @@ export class SeasonsResource extends BaseResource {
    * @param searchQuery - The season name
    * @returns QueryBuilder for chaining
    */
-  name(searchQuery: string): QueryBuilder<PaginatedResponse<Season>> {
+  name(searchQuery: string): QueryBuilder<SingleResponse<Season>> {
     const encodedQuery = encodeURIComponent(searchQuery)
-    return new QueryBuilder<PaginatedResponse<Season>>(this, `/search/${encodedQuery}`)
+    return new QueryBuilder<SingleResponse<Season>>(this, `/search/${encodedQuery}`)
   }
 }
