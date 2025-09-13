@@ -702,6 +702,8 @@ export interface CurrentStage {
   ending_at: string
   games_in_current_week: boolean
   tie_breaker_rule_id: number
+  // temporary solution for nested includes
+  [key: string]: any;
 }
 /**
  * Season statistic entity
@@ -725,4 +727,6 @@ interface Topscorers {
   position: number
   total: number
   participant_id: number
+  // temporary solution for nested includes
+  [key: string]: any;
 }
