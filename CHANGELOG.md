@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0
+
+### Minor Changes
+
+- Added Season entity and all corrosponding types
+- Changed package name from '@withqwerty/sportmonks-typescript-sdk' to 'sportmonks-ts-sdk'
+
 ## 1.2.0
 
 ### Minor Changes

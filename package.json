@@ -1,6 +1,6 @@
 {
-  "name": "@withqwerty/sportmonks-typescript-sdk",
-  "version": "1.3.0",
+  "name": "sportmonks-ts-sdk",
+  "version": "1.4.0",
   "private": false,
   "description": "TypeScript SDK for SportMonks Football API v3",
   "keywords": [
@@ -11,10 +11,10 @@
     "typescript",
     "sdk"
   ],
-  "homepage": "https://github.com/withqwerty/sportmonks-typescript-sdk",
+  "homepage": "https://github.com/compiledpixel/sportmonks-ts-sdk",
   "repository": {
     "type": "git",
-    "url": "https://github.com/withqwerty/sportmonks-typescript-sdk.git"
+    "url": "https://github.com/compiledpixel/sportmonks-ts-sdk.git"
   },
   "license": "MIT",
   "author": "Rahul Keerthi",
