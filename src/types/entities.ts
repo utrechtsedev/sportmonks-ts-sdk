@@ -55,6 +55,20 @@ export interface Season {
   ending_at: string
   standings_recalculated_at: string
   games_in_current_week: boolean
+  // Relationships (when included)
+  sport?: Sport,
+  league?: League
+  teams?: Team[]
+  stages?: Stage[]
+  fixures?: Fixture[]
+  groups?: Group[]
+  currentstage?: CurrentStage | null
+  statistics?: SeasonStatistic | null
+  topscorers?: Topscorers[] | null
+  country?: Country
+  venue?: Venue
+  coaches?: Coach[]
+  players: Player[]
 }
 
 /**
@@ -647,6 +661,8 @@ export interface Group {
   games_in_current_week: boolean
   is_current: boolean
   sort_order: number | null
+  finished: boolean | null
+  pending: boolean | null
 }
 
 /**
@@ -668,4 +684,45 @@ export interface NewsArticle {
   fixture?: Fixture
   league?: League
   season?: Season
+}
+/**
+ * Entity for current season stage
+ */
+export interface CurrentStage {
+  id: number
+  sport_id: number
+  league_id: number
+  season_id: number
+  type_id: number
+  name: string
+  sort_order: number
+  finished: boolean
+  is_current: boolean
+  starting_at: string
+  ending_at: string
+  games_in_current_week: boolean
+  tie_breaker_rule_id: number
+}
+/**
+ * Season statistic entity
+ */
+interface SeasonStatistic {
+  id: number;
+  model_id: number;
+  type_id: number;
+  relation_id: number | null;
+  type: string;
+  value: Record<string, any>;
+}
+/**
+ * Season topscorers entity
+ */
+interface Topscorers {
+  id: number
+  season_id: number
+  player_id: number
+  type_id: number
+  position: number
+  total: number
+  participant_id: number
 }
