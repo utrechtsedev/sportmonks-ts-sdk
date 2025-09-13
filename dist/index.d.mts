@@ -390,7 +390,8 @@ interface Season {
     country?: Country;
     venue?: Venue;
     coaches?: Coach[];
-    players: Player[];
+    players?: Player[];
+    rounds?: Round[];
 }
 /**
  * Stage entity (partial, for relationships)
@@ -703,6 +704,7 @@ interface Round {
     starting_at: string | null;
     ending_at: string | null;
     games_in_current_week: boolean;
+    fixtures?: Fixture[];
 }
 /**
  * Score entity
@@ -1903,13 +1905,39 @@ declare class SeasonsResource extends BaseResource {
      * @param teamId - The team ID
      * @returns QueryBuilder for chaining
      */
-    byCountry(teamId: string | number): QueryBuilder<PaginatedResponse<Season>>;
+    byTeamId(teamId: string | number): QueryBuilder<PaginatedResponse<Season>>;
     /**
      * Search for seasons by name
-     * @param searchQuery - The search query
+     * @param searchQuery - The season name
      * @returns QueryBuilder for chaining
      */
-    search(searchQuery: string): QueryBuilder<PaginatedResponse<Season>>;
+    name(searchQuery: string): QueryBuilder<PaginatedResponse<Season>>;
+}
+
+/**
+ * Seasons resource for SportMonks Football API
+ * @see https://docs.sportmonks.com/football/endpoints-and-entities/endpoints/seasons
+ */
+declare class SchedulesResource extends BaseResource {
+    /**
+     * Get schedule by season ID
+     * @param id - The season ID
+     * @returns QueryBuilder for chaining
+     */
+    bySeasonId(id: string | number): QueryBuilder<SingleResponse<Season>>;
+    /**
+     * Get schedule by team ID
+     * @param teamId - The team ID
+     * @returns QueryBuilder for chaining
+     */
+    byTeamId(teamId: string | number): QueryBuilder<PaginatedResponse<Season>>;
+    /**
+     * Get schedule by team ID and season ID
+     * @param teamID - The team ID
+     * @param seasonID - The season ID
+     * @returns QueryBuilder for chaining
+     */
+    ByTeamAndSeasonId(teamID: string | number, seasonID: string | number): QueryBuilder<PaginatedResponse<Season>>;
 }
 
 /**
@@ -1930,6 +1958,7 @@ declare class SportMonksClient {
     fixtures: FixturesResource;
     news: NewsResource;
     seasons: SeasonsResource;
+    schedules: SchedulesResource;
     /**
      * Create a new SportMonks API client
      */
@@ -2179,4 +2208,4 @@ type ResponseTransformer<TIn, TOut> = (response: TIn) => TOut;
  */
 declare function createTransformer<TIn, TOut>(fn: ResponseTransformer<TIn, TOut>): ResponseTransformer<TIn, TOut>;
 
-export { type Aggregate, BaseResource, type Coach, CoachesResource, type Comment, type Country, type CurrentStage, type ErrorResponse, type Event, type EventType, EventTypeId, type ExtractData, type Fixture, type FixtureStatistic, FixtureStatisticTypeId, FixtureStatus, type FixtureWithEvents, type FixtureWithLeague, type FixtureWithLineups, type FixtureWithTeams, type FixtureWithVenue, FixturesResource, Gender, type Group, type IncludeConfig, type League, LeagueSubType, LeagueType, type LeagueWithCountry, type LeagueWithCountryAndSeasons, type LeagueWithSeasons, LeaguesResource, type Lineup, LineupType, LivescoresResource, type MatchEvent, type NewsArticle, NewsResource, type PaginatedResponse, type Pagination, type Period, type Player, type PlayerStatistic, PlayerStatisticType, type PlayerWithCountry, type PlayerWithNationality, PlayersResource, Poller, type PollingOptions, type Position, PositionType, QueryBuilder, type QueryParameters, type RateLimit, type Referee, RefereesResource, type ResponseMetadata, type ResponseTransformer, type RetryOptions, type Round, type Score, ScoreType, type Season, SeasonsResource, type SingleResponse, SortOrder, type Sport, SportMonksClient, type SportMonksClientOptions, SportMonksError, type SportMonksFilter, SportMonksFilters, type SportMonksInclude, type SportMonksSyntax, SportMonksSyntaxBuilder, SportMonksClient as SportmonksClient, type SquadMember, type SquadPlayer, type Stage, type Standing, type StandingCorrection, type StandingDetail, StandingRule, StandingsResource, type State, type Subscription, type SubscriptionPlan, type Team, TeamType, type TeamWithAll, type TeamWithCoach, type TeamWithCountry, type TeamWithVenue, TeamsResource, type Transfer, type TransferType, TransferTypeEnum, TransfersResource, type Trophy, type TvStation, type Venue, VenueSurface, VenuesResource, type WithRequired, createLivescoresPoller, createTransfersPoller, createTransformer, SportMonksClient as default, formatDate, getDaysAgo, getDaysFromNow, getNestedInclude, getToday, hasData, hasInclude, isPaginatedResponse, isSingleResponse, parseJsonSafely, sanitizeUrlParam, sortByCapacity, sortByName, validateDateFormat, validateDateRange, validateEnum, validateId, validateIds, validatePagination, validateSearchQuery };
+export { type Aggregate, BaseResource, type Coach, CoachesResource, type Comment, type Country, type CurrentStage, type ErrorResponse, type Event, type EventType, EventTypeId, type ExtractData, type Fixture, type FixtureStatistic, FixtureStatisticTypeId, FixtureStatus, type FixtureWithEvents, type FixtureWithLeague, type FixtureWithLineups, type FixtureWithTeams, type FixtureWithVenue, FixturesResource, Gender, type Group, type IncludeConfig, type League, LeagueSubType, LeagueType, type LeagueWithCountry, type LeagueWithCountryAndSeasons, type LeagueWithSeasons, LeaguesResource, type Lineup, LineupType, LivescoresResource, type MatchEvent, type NewsArticle, NewsResource, type PaginatedResponse, type Pagination, type Period, type Player, type PlayerStatistic, PlayerStatisticType, type PlayerWithCountry, type PlayerWithNationality, PlayersResource, Poller, type PollingOptions, type Position, PositionType, QueryBuilder, type QueryParameters, type RateLimit, type Referee, RefereesResource, type ResponseMetadata, type ResponseTransformer, type RetryOptions, type Round, SchedulesResource, type Score, ScoreType, type Season, SeasonsResource, type SingleResponse, SortOrder, type Sport, SportMonksClient, type SportMonksClientOptions, SportMonksError, type SportMonksFilter, SportMonksFilters, type SportMonksInclude, type SportMonksSyntax, SportMonksSyntaxBuilder, SportMonksClient as SportmonksClient, type SquadMember, type SquadPlayer, type Stage, type Standing, type StandingCorrection, type StandingDetail, StandingRule, StandingsResource, type State, type Subscription, type SubscriptionPlan, type Team, TeamType, type TeamWithAll, type TeamWithCoach, type TeamWithCountry, type TeamWithVenue, TeamsResource, type Transfer, type TransferType, TransferTypeEnum, TransfersResource, type Trophy, type TvStation, type Venue, VenueSurface, VenuesResource, type WithRequired, createLivescoresPoller, createTransfersPoller, createTransformer, SportMonksClient as default, formatDate, getDaysAgo, getDaysFromNow, getNestedInclude, getToday, hasData, hasInclude, isPaginatedResponse, isSingleResponse, parseJsonSafely, sanitizeUrlParam, sortByCapacity, sortByName, validateDateFormat, validateDateRange, validateEnum, validateId, validateIds, validatePagination, validateSearchQuery };

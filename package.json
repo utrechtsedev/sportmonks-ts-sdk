@@ -17,7 +17,7 @@
     "url": "https://github.com/compiledpixel/sportmonks-ts-sdk.git"
   },
   "license": "MIT",
-  "author": "Rahul Keerthi",
+  "author": "Abdelmoughit Ichou",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

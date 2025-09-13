@@ -1281,17 +1281,46 @@ var SeasonsResource = class extends BaseResource {
    * @param teamId - The team ID
    * @returns QueryBuilder for chaining
    */
-  byCountry(teamId) {
+  byTeamId(teamId) {
     return new QueryBuilder(this, `/teams/${teamId}`);
   }
   /**
    * Search for seasons by name
-   * @param searchQuery - The search query
+   * @param searchQuery - The season name
    * @returns QueryBuilder for chaining
    */
-  search(searchQuery) {
+  name(searchQuery) {
     const encodedQuery = encodeURIComponent(searchQuery);
     return new QueryBuilder(this, `/search/${encodedQuery}`);
+  }
+};
+
+// src/resources/schedules.ts
+var SchedulesResource = class extends BaseResource {
+  /**
+   * Get schedule by season ID
+   * @param id - The season ID
+   * @returns QueryBuilder for chaining
+   */
+  bySeasonId(id) {
+    return new QueryBuilder(this, `/seasons/${id}`);
+  }
+  /**
+   * Get schedule by team ID
+   * @param teamId - The team ID
+   * @returns QueryBuilder for chaining
+   */
+  byTeamId(teamId) {
+    return new QueryBuilder(this, `/teams/${teamId}`);
+  }
+  /**
+   * Get schedule by team ID and season ID
+   * @param teamID - The team ID
+   * @param seasonID - The season ID
+   * @returns QueryBuilder for chaining
+   */
+  ByTeamAndSeasonId(teamID, seasonID) {
+    return new QueryBuilder(this, `/seasons/${seasonID}/teams/${teamID}`);
   }
 };
 
@@ -1400,6 +1429,11 @@ var SportMonksClient = class {
     this.seasons = new SeasonsResource(
       this.client,
       "/football/seasons",
+      this.options.includeSeparator,
+      this.options.retry
+    ), this.schedules = new SchedulesResource(
+      this.client,
+      "/football/schedules",
       this.options.includeSeparator,
       this.options.retry
     );
@@ -1842,6 +1876,7 @@ export {
   PositionType,
   QueryBuilder,
   RefereesResource,
+  SchedulesResource,
   ScoreType,
   SeasonsResource,
   SortOrder,
