@@ -31,7 +31,7 @@ export class SchedulesResource extends BaseResource {
    * @param seasonID - The season ID
    * @returns QueryBuilder for chaining
    */
-  ByTeamAndSeasonId(teamID: string | number, seasonID: string | number): QueryBuilder<SingleResponse<Season>> {
+  byTeamAndSeasonId(teamID: string | number, seasonID: string | number): QueryBuilder<SingleResponse<Season>> {
     return new QueryBuilder<SingleResponse<Season>>(this, `/seasons/${seasonID}/teams/${teamID}`)
   }
 }
