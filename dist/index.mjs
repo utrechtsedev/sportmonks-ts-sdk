@@ -1,6 +1,8 @@
-import axios from 'axios';
-
 // src/client.ts
+import axios2 from "axios";
+
+// src/core/base-resource.ts
+import axios from "axios";
 
 // src/core/errors.ts
 var SportMonksError = class extends Error {
@@ -53,10 +55,6 @@ var SportMonksError = class extends Error {
 
 // src/core/base-resource.ts
 var BaseResource = class {
-  client;
-  basePath;
-  includeSeparator;
-  retryOptions;
   constructor(client, basePath, includeSeparator = ";", retryOptions = {}) {
     this.client = client;
     this.basePath = basePath;
@@ -187,15 +185,13 @@ var BaseResource = class {
 
 // src/core/query-builder.ts
 var QueryBuilder = class {
-  resource;
-  endpoint;
-  queryParams = {};
-  includeParams = [];
-  selectFields = [];
-  filterParams = {};
-  orderParams = [];
-  hasParams = [];
   constructor(resource, endpoint) {
+    this.queryParams = {};
+    this.includeParams = [];
+    this.selectFields = [];
+    this.filterParams = {};
+    this.orderParams = [];
+    this.hasParams = [];
     this.resource = resource;
     this.endpoint = endpoint;
   }
@@ -1263,22 +1259,44 @@ var FixturesResource = class extends BaseResource {
   }
 };
 
+// src/resources/seasons.ts
+var SeasonsResource = class extends BaseResource {
+  /**
+   * Get all seasons
+   * @returns QueryBuilder for chaining
+   */
+  all() {
+    return new QueryBuilder(this, "");
+  }
+  /**
+   * Get a season by ID
+   * @param id - The season ID
+   * @returns QueryBuilder for chaining
+   */
+  byId(id) {
+    return new QueryBuilder(this, `/${id}`);
+  }
+  /**
+   * Get season by team ID
+   * @param teamId - The team ID
+   * @returns QueryBuilder for chaining
+   */
+  byCountry(teamId) {
+    return new QueryBuilder(this, `/teams/${teamId}`);
+  }
+  /**
+   * Search for seasons by name
+   * @param searchQuery - The search query
+   * @returns QueryBuilder for chaining
+   */
+  search(searchQuery) {
+    const encodedQuery = encodeURIComponent(searchQuery);
+    return new QueryBuilder(this, `/search/${encodedQuery}`);
+  }
+};
+
 // src/client.ts
 var SportMonksClient = class {
-  client;
-  options;
-  // Resource instances
-  leagues;
-  teams;
-  players;
-  standings;
-  livescores;
-  coaches;
-  referees;
-  transfers;
-  venues;
-  fixtures;
-  news;
   /**
    * Create a new SportMonks API client
    */
@@ -1290,7 +1308,7 @@ var SportMonksClient = class {
       includeSeparator: ";",
       ...options
     };
-    this.client = axios.create({
+    this.client = axios2.create({
       baseURL: this.options.baseUrl,
       timeout: this.options.timeout,
       params: {
@@ -1300,7 +1318,7 @@ var SportMonksClient = class {
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (process.env.NODE_ENV === "development" && axios.isAxiosError(error) && error.response) {
+        if (process.env.NODE_ENV === "development" && axios2.isAxiosError(error) && error.response) {
           const responseData = error.response.data;
           console.error("API Error:", {
             status: error.response.status,
@@ -1308,7 +1326,7 @@ var SportMonksClient = class {
             url: error.config?.url
           });
         }
-        return Promise.reject(axios.isAxiosError(error) ? error : new Error(String(error)));
+        return Promise.reject(axios2.isAxiosError(error) ? error : new Error(String(error)));
       }
     );
     this.leagues = new LeaguesResource(
@@ -1377,6 +1395,12 @@ var SportMonksClient = class {
       this.options.includeSeparator,
       this.options.retry
     );
+    this.seasons = new SeasonsResource(
+      this.client,
+      "/football/seasons",
+      this.options.includeSeparator,
+      this.options.retry
+    );
   }
   /**
    * Update the API key
@@ -1385,6 +1409,7 @@ var SportMonksClient = class {
     if (!this.client.defaults.params) {
       this.client.defaults.params = {};
     }
+    ;
     this.client.defaults.params.api_token = apiKey;
   }
   /**
@@ -1639,11 +1664,8 @@ var Poller = class {
   constructor(fetchFunction, options) {
     this.fetchFunction = fetchFunction;
     this.options = options;
+    this.isPolling = false;
   }
-  intervalId;
-  startTime;
-  lastData;
-  isPolling = false;
   /**
    * Start polling
    */
@@ -1798,7 +1820,64 @@ function sortByCapacity(a, b) {
 function createTransformer(fn) {
   return fn;
 }
-
-export { BaseResource, CoachesResource, EventTypeId, FixtureStatisticTypeId, FixtureStatus, FixturesResource, Gender, LeagueSubType, LeagueType, LeaguesResource, LineupType, LivescoresResource, NewsResource, PlayerStatisticType, PlayersResource, Poller, PositionType, QueryBuilder, RefereesResource, ScoreType, SortOrder, SportMonksClient, SportMonksError, SportMonksFilters, SportMonksSyntaxBuilder, SportMonksClient as SportmonksClient, StandingRule, StandingsResource, TeamType, TeamsResource, TransferTypeEnum, TransfersResource, VenueSurface, VenuesResource, createLivescoresPoller, createTransfersPoller, createTransformer, SportMonksClient as default, formatDate, getDaysAgo, getDaysFromNow, getNestedInclude, getToday, hasData, hasInclude, isPaginatedResponse, isSingleResponse, parseJsonSafely, sanitizeUrlParam, sortByCapacity, sortByName, validateDateFormat, validateDateRange, validateEnum, validateId, validateIds, validatePagination, validateSearchQuery };
-//# sourceMappingURL=index.mjs.map
-//# sourceMappingURL=index.mjs.map
+export {
+  BaseResource,
+  CoachesResource,
+  EventTypeId,
+  FixtureStatisticTypeId,
+  FixtureStatus,
+  FixturesResource,
+  Gender,
+  LeagueSubType,
+  LeagueType,
+  LeaguesResource,
+  LineupType,
+  LivescoresResource,
+  NewsResource,
+  PlayerStatisticType,
+  PlayersResource,
+  Poller,
+  PositionType,
+  QueryBuilder,
+  RefereesResource,
+  ScoreType,
+  SeasonsResource,
+  SortOrder,
+  SportMonksClient,
+  SportMonksError,
+  SportMonksFilters,
+  SportMonksSyntaxBuilder,
+  SportMonksClient as SportmonksClient,
+  StandingRule,
+  StandingsResource,
+  TeamType,
+  TeamsResource,
+  TransferTypeEnum,
+  TransfersResource,
+  VenueSurface,
+  VenuesResource,
+  createLivescoresPoller,
+  createTransfersPoller,
+  createTransformer,
+  SportMonksClient as default,
+  formatDate,
+  getDaysAgo,
+  getDaysFromNow,
+  getNestedInclude,
+  getToday,
+  hasData,
+  hasInclude,
+  isPaginatedResponse,
+  isSingleResponse,
+  parseJsonSafely,
+  sanitizeUrlParam,
+  sortByCapacity,
+  sortByName,
+  validateDateFormat,
+  validateDateRange,
+  validateEnum,
+  validateId,
+  validateIds,
+  validatePagination,
+  validateSearchQuery
+};

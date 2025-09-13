@@ -77,5 +77,11 @@
       "path": "dist/index.mjs",
       "limit": "50 KB"
     }
-  ]
+  ],
+  "tsup": {
+    "entry": ["src/index.ts"],
+    "format": ["cjs", "esm"],
+    "dts": true,
+    "clean": true
+  }
 }

@@ -1,14 +1,102 @@
-'use strict';
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var axios = require('axios');
-
-function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
-
-var axios__default = /*#__PURE__*/_interopDefault(axios);
+// src/index.ts
+var index_exports = {};
+__export(index_exports, {
+  BaseResource: () => BaseResource,
+  CoachesResource: () => CoachesResource,
+  EventTypeId: () => EventTypeId,
+  FixtureStatisticTypeId: () => FixtureStatisticTypeId,
+  FixtureStatus: () => FixtureStatus,
+  FixturesResource: () => FixturesResource,
+  Gender: () => Gender,
+  LeagueSubType: () => LeagueSubType,
+  LeagueType: () => LeagueType,
+  LeaguesResource: () => LeaguesResource,
+  LineupType: () => LineupType,
+  LivescoresResource: () => LivescoresResource,
+  NewsResource: () => NewsResource,
+  PlayerStatisticType: () => PlayerStatisticType,
+  PlayersResource: () => PlayersResource,
+  Poller: () => Poller,
+  PositionType: () => PositionType,
+  QueryBuilder: () => QueryBuilder,
+  RefereesResource: () => RefereesResource,
+  ScoreType: () => ScoreType,
+  SeasonsResource: () => SeasonsResource,
+  SortOrder: () => SortOrder,
+  SportMonksClient: () => SportMonksClient,
+  SportMonksError: () => SportMonksError,
+  SportMonksFilters: () => SportMonksFilters,
+  SportMonksSyntaxBuilder: () => SportMonksSyntaxBuilder,
+  SportmonksClient: () => SportMonksClient,
+  StandingRule: () => StandingRule,
+  StandingsResource: () => StandingsResource,
+  TeamType: () => TeamType,
+  TeamsResource: () => TeamsResource,
+  TransferTypeEnum: () => TransferTypeEnum,
+  TransfersResource: () => TransfersResource,
+  VenueSurface: () => VenueSurface,
+  VenuesResource: () => VenuesResource,
+  createLivescoresPoller: () => createLivescoresPoller,
+  createTransfersPoller: () => createTransfersPoller,
+  createTransformer: () => createTransformer,
+  default: () => SportMonksClient,
+  formatDate: () => formatDate,
+  getDaysAgo: () => getDaysAgo,
+  getDaysFromNow: () => getDaysFromNow,
+  getNestedInclude: () => getNestedInclude,
+  getToday: () => getToday,
+  hasData: () => hasData,
+  hasInclude: () => hasInclude,
+  isPaginatedResponse: () => isPaginatedResponse,
+  isSingleResponse: () => isSingleResponse,
+  parseJsonSafely: () => parseJsonSafely,
+  sanitizeUrlParam: () => sanitizeUrlParam,
+  sortByCapacity: () => sortByCapacity,
+  sortByName: () => sortByName,
+  validateDateFormat: () => validateDateFormat,
+  validateDateRange: () => validateDateRange,
+  validateEnum: () => validateEnum,
+  validateId: () => validateId,
+  validateIds: () => validateIds,
+  validatePagination: () => validatePagination,
+  validateSearchQuery: () => validateSearchQuery
+});
+module.exports = __toCommonJS(index_exports);
 
 // src/client.ts
+var import_axios2 = __toESM(require("axios"));
+
+// src/core/base-resource.ts
+var import_axios = __toESM(require("axios"));
 
 // src/core/errors.ts
 var SportMonksError = class extends Error {
@@ -61,10 +149,6 @@ var SportMonksError = class extends Error {
 
 // src/core/base-resource.ts
 var BaseResource = class {
-  client;
-  basePath;
-  includeSeparator;
-  retryOptions;
   constructor(client, basePath, includeSeparator = ";", retryOptions = {}) {
     this.client = client;
     this.basePath = basePath;
@@ -96,7 +180,7 @@ var BaseResource = class {
           this.retryOptions.retryDelay * Math.pow(2, attempt),
           this.retryOptions.maxRetryDelay
         );
-        if (axios__default.default.isAxiosError(error) && error.response?.status === 429) {
+        if (import_axios.default.isAxiosError(error) && error.response?.status === 429) {
           const responseData = error.response.data;
           const rateLimit = responseData?.rate_limit;
           const resetIn = rateLimit?.resets_in_seconds;
@@ -117,7 +201,7 @@ var BaseResource = class {
     if (attempt >= this.retryOptions.maxRetries) {
       return false;
     }
-    if (!axios__default.default.isAxiosError(error)) {
+    if (!import_axios.default.isAxiosError(error)) {
       return false;
     }
     const status = error.response?.status;
@@ -133,7 +217,7 @@ var BaseResource = class {
    * Handle and transform errors
    */
   handleError(error, url) {
-    if (axios__default.default.isAxiosError(error)) {
+    if (import_axios.default.isAxiosError(error)) {
       const errorData = error.response?.data;
       const status = error.response?.status;
       let errorType;
@@ -195,15 +279,13 @@ var BaseResource = class {
 
 // src/core/query-builder.ts
 var QueryBuilder = class {
-  resource;
-  endpoint;
-  queryParams = {};
-  includeParams = [];
-  selectFields = [];
-  filterParams = {};
-  orderParams = [];
-  hasParams = [];
   constructor(resource, endpoint) {
+    this.queryParams = {};
+    this.includeParams = [];
+    this.selectFields = [];
+    this.filterParams = {};
+    this.orderParams = [];
+    this.hasParams = [];
     this.resource = resource;
     this.endpoint = endpoint;
   }
@@ -1271,22 +1353,44 @@ var FixturesResource = class extends BaseResource {
   }
 };
 
+// src/resources/seasons.ts
+var SeasonsResource = class extends BaseResource {
+  /**
+   * Get all seasons
+   * @returns QueryBuilder for chaining
+   */
+  all() {
+    return new QueryBuilder(this, "");
+  }
+  /**
+   * Get a season by ID
+   * @param id - The season ID
+   * @returns QueryBuilder for chaining
+   */
+  byId(id) {
+    return new QueryBuilder(this, `/${id}`);
+  }
+  /**
+   * Get season by team ID
+   * @param teamId - The team ID
+   * @returns QueryBuilder for chaining
+   */
+  byCountry(teamId) {
+    return new QueryBuilder(this, `/teams/${teamId}`);
+  }
+  /**
+   * Search for seasons by name
+   * @param searchQuery - The search query
+   * @returns QueryBuilder for chaining
+   */
+  search(searchQuery) {
+    const encodedQuery = encodeURIComponent(searchQuery);
+    return new QueryBuilder(this, `/search/${encodedQuery}`);
+  }
+};
+
 // src/client.ts
 var SportMonksClient = class {
-  client;
-  options;
-  // Resource instances
-  leagues;
-  teams;
-  players;
-  standings;
-  livescores;
-  coaches;
-  referees;
-  transfers;
-  venues;
-  fixtures;
-  news;
   /**
    * Create a new SportMonks API client
    */
@@ -1298,7 +1402,7 @@ var SportMonksClient = class {
       includeSeparator: ";",
       ...options
     };
-    this.client = axios__default.default.create({
+    this.client = import_axios2.default.create({
       baseURL: this.options.baseUrl,
       timeout: this.options.timeout,
       params: {
@@ -1308,7 +1412,7 @@ var SportMonksClient = class {
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (process.env.NODE_ENV === "development" && axios__default.default.isAxiosError(error) && error.response) {
+        if (process.env.NODE_ENV === "development" && import_axios2.default.isAxiosError(error) && error.response) {
           const responseData = error.response.data;
           console.error("API Error:", {
             status: error.response.status,
@@ -1316,7 +1420,7 @@ var SportMonksClient = class {
             url: error.config?.url
           });
         }
-        return Promise.reject(axios__default.default.isAxiosError(error) ? error : new Error(String(error)));
+        return Promise.reject(import_axios2.default.isAxiosError(error) ? error : new Error(String(error)));
       }
     );
     this.leagues = new LeaguesResource(
@@ -1385,6 +1489,12 @@ var SportMonksClient = class {
       this.options.includeSeparator,
       this.options.retry
     );
+    this.seasons = new SeasonsResource(
+      this.client,
+      "/football/seasons",
+      this.options.includeSeparator,
+      this.options.retry
+    );
   }
   /**
    * Update the API key
@@ -1393,6 +1503,7 @@ var SportMonksClient = class {
     if (!this.client.defaults.params) {
       this.client.defaults.params = {};
     }
+    ;
     this.client.defaults.params.api_token = apiKey;
   }
   /**
@@ -1647,11 +1758,8 @@ var Poller = class {
   constructor(fetchFunction, options) {
     this.fetchFunction = fetchFunction;
     this.options = options;
+    this.isPolling = false;
   }
-  intervalId;
-  startTime;
-  lastData;
-  isPolling = false;
   /**
    * Start polling
    */
@@ -1806,64 +1914,64 @@ function sortByCapacity(a, b) {
 function createTransformer(fn) {
   return fn;
 }
-
-exports.BaseResource = BaseResource;
-exports.CoachesResource = CoachesResource;
-exports.EventTypeId = EventTypeId;
-exports.FixtureStatisticTypeId = FixtureStatisticTypeId;
-exports.FixtureStatus = FixtureStatus;
-exports.FixturesResource = FixturesResource;
-exports.Gender = Gender;
-exports.LeagueSubType = LeagueSubType;
-exports.LeagueType = LeagueType;
-exports.LeaguesResource = LeaguesResource;
-exports.LineupType = LineupType;
-exports.LivescoresResource = LivescoresResource;
-exports.NewsResource = NewsResource;
-exports.PlayerStatisticType = PlayerStatisticType;
-exports.PlayersResource = PlayersResource;
-exports.Poller = Poller;
-exports.PositionType = PositionType;
-exports.QueryBuilder = QueryBuilder;
-exports.RefereesResource = RefereesResource;
-exports.ScoreType = ScoreType;
-exports.SortOrder = SortOrder;
-exports.SportMonksClient = SportMonksClient;
-exports.SportMonksError = SportMonksError;
-exports.SportMonksFilters = SportMonksFilters;
-exports.SportMonksSyntaxBuilder = SportMonksSyntaxBuilder;
-exports.SportmonksClient = SportMonksClient;
-exports.StandingRule = StandingRule;
-exports.StandingsResource = StandingsResource;
-exports.TeamType = TeamType;
-exports.TeamsResource = TeamsResource;
-exports.TransferTypeEnum = TransferTypeEnum;
-exports.TransfersResource = TransfersResource;
-exports.VenueSurface = VenueSurface;
-exports.VenuesResource = VenuesResource;
-exports.createLivescoresPoller = createLivescoresPoller;
-exports.createTransfersPoller = createTransfersPoller;
-exports.createTransformer = createTransformer;
-exports.default = SportMonksClient;
-exports.formatDate = formatDate;
-exports.getDaysAgo = getDaysAgo;
-exports.getDaysFromNow = getDaysFromNow;
-exports.getNestedInclude = getNestedInclude;
-exports.getToday = getToday;
-exports.hasData = hasData;
-exports.hasInclude = hasInclude;
-exports.isPaginatedResponse = isPaginatedResponse;
-exports.isSingleResponse = isSingleResponse;
-exports.parseJsonSafely = parseJsonSafely;
-exports.sanitizeUrlParam = sanitizeUrlParam;
-exports.sortByCapacity = sortByCapacity;
-exports.sortByName = sortByName;
-exports.validateDateFormat = validateDateFormat;
-exports.validateDateRange = validateDateRange;
-exports.validateEnum = validateEnum;
-exports.validateId = validateId;
-exports.validateIds = validateIds;
-exports.validatePagination = validatePagination;
-exports.validateSearchQuery = validateSearchQuery;
-//# sourceMappingURL=index.js.map
-//# sourceMappingURL=index.js.map
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  BaseResource,
+  CoachesResource,
+  EventTypeId,
+  FixtureStatisticTypeId,
+  FixtureStatus,
+  FixturesResource,
+  Gender,
+  LeagueSubType,
+  LeagueType,
+  LeaguesResource,
+  LineupType,
+  LivescoresResource,
+  NewsResource,
+  PlayerStatisticType,
+  PlayersResource,
+  Poller,
+  PositionType,
+  QueryBuilder,
+  RefereesResource,
+  ScoreType,
+  SeasonsResource,
+  SortOrder,
+  SportMonksClient,
+  SportMonksError,
+  SportMonksFilters,
+  SportMonksSyntaxBuilder,
+  SportmonksClient,
+  StandingRule,
+  StandingsResource,
+  TeamType,
+  TeamsResource,
+  TransferTypeEnum,
+  TransfersResource,
+  VenueSurface,
+  VenuesResource,
+  createLivescoresPoller,
+  createTransfersPoller,
+  createTransformer,
+  formatDate,
+  getDaysAgo,
+  getDaysFromNow,
+  getNestedInclude,
+  getToday,
+  hasData,
+  hasInclude,
+  isPaginatedResponse,
+  isSingleResponse,
+  parseJsonSafely,
+  sanitizeUrlParam,
+  sortByCapacity,
+  sortByName,
+  validateDateFormat,
+  validateDateRange,
+  validateEnum,
+  validateId,
+  validateIds,
+  validatePagination,
+  validateSearchQuery
+});
