@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> This repository was original posted here by a user called @withqwerty. I don't know why it disappeared, but I have decided to continue developing this SDK. His original work is still available [here on NPM](https://www.npmjs.com/package/@withqwerty/sportmonks-typescript-sdk)
+
 # SportMonks TypeScript SDK
 
 A comprehensive, production-ready TypeScript SDK for the SportMonks Football API v3. Built with modern TypeScript, featuring complete type safety, intuitive method chaining, automatic retries, real-time polling, and extensive test coverage.

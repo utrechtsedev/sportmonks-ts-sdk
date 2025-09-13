@@ -12,6 +12,7 @@ import {
   VenuesResource,
   FixturesResource,
   NewsResource,
+  SeasonsResource,
 } from './resources'
 
 /**
@@ -33,6 +34,7 @@ export class SportMonksClient {
   public venues: VenuesResource
   public fixtures: FixturesResource
   public news: NewsResource
+  public seasons: SeasonsResource
 
   /**
    * Create a new SportMonks API client
@@ -139,6 +141,12 @@ export class SportMonksClient {
       this.options.includeSeparator,
       this.options.retry,
     )
+    this.seasons = new SeasonsResource(
+      this.client,
+      '/football/seasons',
+      this.options.includeSeparator,
+      this.options.retry,
+    )
   }
 
   /**
@@ -148,7 +156,7 @@ export class SportMonksClient {
     if (!this.client.defaults.params) {
       this.client.defaults.params = {}
     }
-    ;(this.client.defaults.params as Record<string, unknown>).api_token = apiKey
+    ; (this.client.defaults.params as Record<string, unknown>).api_token = apiKey
   }
 
   /**
