@@ -1306,13 +1306,15 @@ var SportMonksClient = class {
       timeout: 3e4,
       version: "v3",
       includeSeparator: ";",
+      timezone: "Europe/Amsterdam",
       ...options
     };
     this.client = axios2.create({
       baseURL: this.options.baseUrl,
       timeout: this.options.timeout,
       params: {
-        api_token: apiKey
+        api_token: apiKey,
+        timezone: this.options.timezone
       }
     });
     this.client.interceptors.response.use(

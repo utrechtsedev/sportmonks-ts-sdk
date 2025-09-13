@@ -29,6 +29,8 @@ interface SportMonksClientOptions {
     includeSeparator?: string;
     /** Retry configuration */
     retry?: RetryOptions;
+    /** Timezone options */
+    timezone?: string;
 }
 /**
  * Pagination information returned by the API
@@ -974,6 +976,7 @@ interface CurrentStage {
     ending_at: string;
     games_in_current_week: boolean;
     tie_breaker_rule_id: number;
+    [key: string]: any;
 }
 /**
  * Season statistic entity
@@ -997,6 +1000,7 @@ interface Topscorers {
     position: number;
     total: number;
     participant_id: number;
+    [key: string]: any;
 }
 
 /**

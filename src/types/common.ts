@@ -28,6 +28,8 @@ export interface SportMonksClientOptions {
   includeSeparator?: string
   /** Retry configuration */
   retry?: RetryOptions
+  /** Timezone options */
+  timezone?: string
 }
 
 /**

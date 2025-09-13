@@ -45,6 +45,7 @@ export class SportMonksClient {
       timeout: 30000,
       version: 'v3',
       includeSeparator: ';',
+      timezone: 'Europe/Amsterdam',
       ...options,
     }
 
@@ -54,6 +55,7 @@ export class SportMonksClient {
       timeout: this.options.timeout,
       params: {
         api_token: apiKey,
+        timezone: this.options.timezone
       },
     })
 
