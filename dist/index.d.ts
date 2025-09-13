@@ -392,6 +392,7 @@ interface Season {
     coaches?: Coach[];
     players?: Player[];
     rounds?: Round[];
+    aggregates?: [] | null;
 }
 /**
  * Stage entity (partial, for relationships)
@@ -1905,13 +1906,13 @@ declare class SeasonsResource extends BaseResource {
      * @param teamId - The team ID
      * @returns QueryBuilder for chaining
      */
-    byTeamId(teamId: string | number): QueryBuilder<PaginatedResponse<Season>>;
+    byTeamId(teamId: string | number): QueryBuilder<SingleResponse<Season>>;
     /**
      * Search for seasons by name
      * @param searchQuery - The season name
      * @returns QueryBuilder for chaining
      */
-    name(searchQuery: string): QueryBuilder<PaginatedResponse<Season>>;
+    name(searchQuery: string): QueryBuilder<SingleResponse<Season>>;
 }
 
 /**
@@ -1930,14 +1931,14 @@ declare class SchedulesResource extends BaseResource {
      * @param teamId - The team ID
      * @returns QueryBuilder for chaining
      */
-    byTeamId(teamId: string | number): QueryBuilder<PaginatedResponse<Season>>;
+    byTeamId(teamId: string | number): QueryBuilder<SingleResponse<Season>>;
     /**
      * Get schedule by team ID and season ID
      * @param teamID - The team ID
      * @param seasonID - The season ID
      * @returns QueryBuilder for chaining
      */
-    ByTeamAndSeasonId(teamID: string | number, seasonID: string | number): QueryBuilder<PaginatedResponse<Season>>;
+    ByTeamAndSeasonId(teamID: string | number, seasonID: string | number): QueryBuilder<SingleResponse<Season>>;
 }
 
 /**
