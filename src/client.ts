@@ -13,6 +13,7 @@ import {
   FixturesResource,
   NewsResource,
   SeasonsResource,
+  SchedulesResource,
 } from './resources'
 
 /**
@@ -35,6 +36,7 @@ export class SportMonksClient {
   public fixtures: FixturesResource
   public news: NewsResource
   public seasons: SeasonsResource
+  public schedules: SchedulesResource
 
   /**
    * Create a new SportMonks API client
@@ -148,7 +150,13 @@ export class SportMonksClient {
       '/football/seasons',
       this.options.includeSeparator,
       this.options.retry,
-    )
+    ),
+      this.schedules = new SchedulesResource(
+        this.client,
+        '/football/schedules',
+        this.options.includeSeparator,
+        this.options.retry,
+      )
   }
 
   /**

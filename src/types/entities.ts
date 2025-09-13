@@ -68,7 +68,8 @@ export interface Season {
   country?: Country
   venue?: Venue
   coaches?: Coach[]
-  players: Player[]
+  players?: Player[]
+  rounds?: Round[]
 }
 
 /**
@@ -406,6 +407,8 @@ export interface Round {
   starting_at: string | null
   ending_at: string | null
   games_in_current_week: boolean
+  // Relationships
+  fixtures?: Fixture[]
 }
 
 /**
