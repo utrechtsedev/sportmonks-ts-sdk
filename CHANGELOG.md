@@ -5,6 +5,7 @@
 ### Minor Changes
 
 - Added Season entity and all corrosponding types
+- Added Schedules entity
 - Changed package name from '@withqwerty/sportmonks-typescript-sdk' to 'sportmonks-ts-sdk'
 
 ## 1.2.0
