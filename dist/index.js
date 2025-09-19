@@ -1444,7 +1444,7 @@ var SquadsResource = class extends BaseResource {
    * @param seasonId - The season ID
    * @returns QueryBuilder for chaining
    */
-  byTeamId(teamId, seasonId) {
+  byTeamAndSeasonId(teamId, seasonId) {
     return new QueryBuilder(this, `/seasons/${seasonId}/teams/${teamId}`);
   }
 };

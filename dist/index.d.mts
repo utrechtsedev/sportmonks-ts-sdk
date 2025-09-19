@@ -1979,7 +1979,7 @@ declare class SquadsResource extends BaseResource {
      * @param seasonId - The season ID
      * @returns QueryBuilder for chaining
      */
-    byTeamId(teamId: string | number, seasonId: string | number): QueryBuilder<SingleResponse<SquadMember>>;
+    byTeamAndSeasonId(teamId: string | number, seasonId: string | number): QueryBuilder<SingleResponse<SquadMember>>;
 }
 
 /**
