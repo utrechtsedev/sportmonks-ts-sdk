@@ -143,6 +143,8 @@ export interface Player {
   weight: number | null
   date_of_birth: string | null
   gender: string
+  // for extended team squad requests 
+  in_squad: boolean | null
   // Relationships
   country?: Country
   nationality?: Country
@@ -525,6 +527,18 @@ export interface Position {
   developer_name: string
   model_type: string
 }
+/**
+ * Detailed Position entity
+ */
+export interface DetailedPosition {
+  id: number
+  name: string
+  code: string
+  developer_name: string
+  model_type: string
+  stat_group: any | null
+}
+
 
 /**
  * Squad member entity
@@ -543,6 +557,9 @@ export interface SquadMember {
   // Relationships
   player?: Player
   position?: Position
+  team?: Team
+  detailedposition?: DetailedPosition
+  transfer?: Transfer
 }
 
 /**
