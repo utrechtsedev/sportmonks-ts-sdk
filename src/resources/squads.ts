@@ -31,7 +31,7 @@ export class SquadsResource extends BaseResource {
    * @param seasonId - The season ID
    * @returns QueryBuilder for chaining
    */
-  byTeamId(teamId: string | number, seasonId: string | number): QueryBuilder<SingleResponse<SquadMember>> {
+  byTeamAndSeasonId(teamId: string | number, seasonId: string | number): QueryBuilder<SingleResponse<SquadMember>> {
     return new QueryBuilder<SingleResponse<SquadMember>>(this, `/seasons/${seasonId}/teams/${teamId}`)
   }
 }
