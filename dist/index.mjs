@@ -1319,8 +1319,37 @@ var SchedulesResource = class extends BaseResource {
    * @param seasonID - The season ID
    * @returns QueryBuilder for chaining
    */
-  ByTeamAndSeasonId(teamID, seasonID) {
+  byTeamAndSeasonId(teamID, seasonID) {
     return new QueryBuilder(this, `/seasons/${seasonID}/teams/${teamID}`);
+  }
+};
+
+// src/resources/squads.ts
+var SquadsResource = class extends BaseResource {
+  /**
+   * Returns the current domestic squad from your requested team ID (current season).
+   * @param teamId - The season ID
+   * @returns QueryBuilder for chaining
+   */
+  ByTeamId(teamId) {
+    return new QueryBuilder(this, `/squads/teams/${teamId}`);
+  }
+  /**
+   * Returns all squad entries for a team, based on current seasons (current season).
+   * @param teamId - The team ID
+   * @returns QueryBuilder for chaining
+   */
+  byTeamIdExtended(teamId) {
+    return new QueryBuilder(this, `/teams/${teamId}/extended`);
+  }
+  /**
+   * Returns (historical) squads from your requested season ID.
+   * @param teamId - The team ID
+   * @param seasonId - The season ID
+   * @returns QueryBuilder for chaining
+   */
+  byTeamId(teamId, seasonId) {
+    return new QueryBuilder(this, `/seasons/${seasonId}/teams/${teamId}`);
   }
 };
 
@@ -1434,6 +1463,12 @@ var SportMonksClient = class {
     ), this.schedules = new SchedulesResource(
       this.client,
       "/football/schedules",
+      this.options.includeSeparator,
+      this.options.retry
+    );
+    this.squads = new SquadsResource(
+      this.client,
+      "/football/squads",
       this.options.includeSeparator,
       this.options.retry
     );
@@ -1885,6 +1920,7 @@ export {
   SportMonksFilters,
   SportMonksSyntaxBuilder,
   SportMonksClient as SportmonksClient,
+  SquadsResource,
   StandingRule,
   StandingsResource,
   TeamType,
