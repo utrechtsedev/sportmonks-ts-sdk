@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 
+
+- Added Squads entity
+- Updated README.md
+
 ## 1.4.0
 
 ### Minor Changes

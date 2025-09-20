@@ -1,13 +1,10 @@
 > [!IMPORTANT]  
-> This repository was original posted here by a user called @withqwerty. I don't know why it disappeared, but I have decided to continue developing this SDK. His original work is still available [here on NPM](https://www.npmjs.com/package/@withqwerty/sportmonks-typescript-sdk)
+> This repository was original posted here by a user called @withqwerty or @rahulkeerthi. I don't know why it disappeared, but I have decided to continue developing this SDK. His original work is still available [here on NPM](https://www.npmjs.com/package/@withqwerty/sportmonks-typescript-sdk)
 
 # SportMonks TypeScript SDK
 
 A comprehensive, production-ready TypeScript SDK for the SportMonks Football API v3. Built with modern TypeScript, featuring complete type safety, intuitive method chaining, automatic retries, real-time polling, and extensive test coverage.
 
-[![npm version](https://img.shields.io/npm/v/@withqwerty/sportmonks-typescript-sdk.svg)](https://www.npmjs.com/package/@withqwerty/sportmonks-typescript-sdk)
-[![CI](https://github.com/rahulkeerthi/fitba/actions/workflows/sdk-test.yml/badge.svg)](https://github.com/rahulkeerthi/fitba/actions/workflows/sdk-test.yml)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
@@ -26,13 +23,13 @@ A comprehensive, production-ready TypeScript SDK for the SportMonks Football API
 ## Installation
 
 ```bash
-npm install @withqwerty/sportmonks-typescript-sdk
+npm install git+https://github.com/utrechtsedev/sportmonks-ts-sdk
 ```
 
 ## Quick Start
 
 ```typescript
-import { SportMonksClient } from '@withqwerty/sportmonks-typescript-sdk'
+import { SportMonksClient } from 'sportmonks-ts-sdk'
 
 const client = new SportMonksClient('YOUR_API_KEY')
 
@@ -54,20 +51,8 @@ Test and explore the API interactively with the built-in REPL:
 # Set up your API key (one-time setup)
 export SPORTMONKS_API_KEY=your_api_key_here
 # OR create a .env file with: SPORTMONKS_API_KEY=your_api_key_here
-
-# Run the interactive REPL
-npx sportmonks-repl
-
-# Run with advanced features (type browsing, better formatting)
-npx sportmonks-repl --advanced
-
-# In the REPL, you can directly use resources without 'client.' prefix:
-sportmonks> await leagues.all().limit(5).get()
-sportmonks> await teams.search('Liverpool').get()
-sportmonks> await fixtures.byDate('2024-03-30').include(['participants', 'scores']).get()
 ```
 
-See the [REPL documentation](docs/REPL.md) for more details and examples.
 
 ## Configuration
 
@@ -76,6 +61,7 @@ const client = new SportMonksClient('YOUR_API_KEY', {
   baseUrl: 'https://api.sportmonks.com/v3',
   timeout: 30000,
   includeSeparator: ',',
+  timezone: 'Europe/Amsterdam',
   retry: {
     maxRetries: 3,
     retryDelay: 1000,
@@ -212,6 +198,9 @@ const seasonStats = await client.players.statisticsBySeason(278, 21646).get()
 
 ### Additional Resources
 
+- Seasons - Find all sorts of data about seasons
+- Squads - Find current en historical data about players en teams
+- Schedules - Fixture schedules per season
 - **Transfers** - Player transfers with date filtering
 - **Coaches** - Coach information and history
 - **Referees** - Referee data and assignments
@@ -275,7 +264,7 @@ const goalEvents = await client.fixtures
   .get()
 
 // Advanced SportMonks syntax
-import { SportMonksSyntaxBuilder } from 'sportmonks-typescript-sdk'
+import { SportMonksSyntaxBuilder } from 'sportmonks-ts-sdk'
 
 // Build complex includes programmatically
 const includeString = SportMonksSyntaxBuilder.buildIncludes({
@@ -294,7 +283,7 @@ const includeString = SportMonksSyntaxBuilder.buildIncludes({
 ### Real-time Polling
 
 ```typescript
-import { createLivescoresPoller } from 'sportmonks-typescript-sdk'
+import { createLivescoresPoller } from 'sportmonks-ts-sdk'
 
 // Poll for live scores every 10 seconds
 const poller = createLivescoresPoller(() => client.livescores.inplay().get(), {
@@ -314,7 +303,7 @@ poller.start()
 ### Date Helpers
 
 ```typescript
-import { formatDate, getToday, getDaysFromNow } from 'sportmonks-typescript-sdk'
+import { formatDate, getToday, getDaysFromNow } from 'sportmonks-ts-sdk'
 
 // Get fixtures for today
 const today = await client.fixtures.byDate(getToday()).get()
@@ -339,7 +328,7 @@ With retry enabled, the SDK will automatically wait and retry when rate limits a
 ## Error Handling
 
 ```typescript
-import { SportMonksError } from 'sportmonks-typescript-sdk'
+import { SportMonksError } from 'sportmonks-ts-sdk'
 
 try {
   const team = await client.teams.byId(99999).get()
@@ -357,7 +346,7 @@ try {
 All responses are fully typed:
 
 ```typescript
-import type { Team, League, Fixture } from '@withqwerty/sportmonks-typescript-sdk'
+import type { Team, League, Fixture } from 'sportmonks-ts-sdk'
 
 const fixture: Fixture = await client.fixtures.byId(18535517).get()
 const homeTeam: Team = fixture.localteam!
@@ -369,7 +358,7 @@ const league: League = fixture.league!
 The SDK includes type helper utilities for better type safety:
 
 ```typescript
-import { hasInclude, TeamWithCountry, sortByName } from '@withqwerty/sportmonks-typescript-sdk'
+import { hasInclude, TeamWithCountry, sortByName } from 'sportmonks-ts-sdk'
 
 const team = await client.teams.byId(1).include(['country']).get()
 
@@ -402,6 +391,9 @@ See [Type Helpers Guide](docs/TYPE_HELPERS.md) for complete documentation.
 - Players (5 endpoints)
 - Standings (5 endpoints)
 - Livescores (3 endpoints)
+- Seasons (4 endpoints)
+- Schedules (3 endpoints)
+- Team Squads (3 endpoints)
 
 ✅ **Additional Resources**
 
@@ -425,10 +417,6 @@ See [Type Helpers Guide](docs/TYPE_HELPERS.md) for complete documentation.
 - Predictions
 - TV Stations
 
-## Full Documentation
-
-For complete documentation, examples, and API reference, visit our [documentation site](https://github.com/rahulkeerthi/sportmonks-typescript-sdk/wiki).
-
 ## Requirements
 
 - Node.js >= 14
@@ -442,18 +430,6 @@ NB: Check [your subscription plan](https://my.sportmonks.com/subscriptions) to s
 ```bash
 # Set your API key for integration tests
 export SPORTMONKS_TEST_API_KEY=your_api_key_here
-
-# Run all tests
-npm test
-
-# Run unit tests only
-npm run test:unit
-
-# Run integration tests (requires API key)
-SPORTMONKS_TEST_API_KEY=your_key npm run test:integration
-
-# Run tests with coverage
-npm run test:coverage
 ```
 
 ## Performance Considerations
@@ -481,73 +457,6 @@ The transfers endpoint requires semicolon separators for includes:
 const client = new SportMonksClient(API_KEY, { includeSeparator: ';' })
 ```
 
-## Interactive REPL
-
-The SDK includes an interactive REPL (Read-Eval-Print Loop) for testing and exploring the API:
-
-```bash
-# Start the REPL
-npm run repl
-
-# Advanced REPL with more features
-npm run repl:advanced
-```
-
-In the REPL, you can run queries directly:
-
-```javascript
-// No need to type 'client.' - just use the resources directly
-await teams.search('Liverpool').get()
-await fixtures.byDate('2024-01-15').include(['localteam', 'visitorteam']).get()
-await leagues.all().limit(5).get()
-```
-
-See [docs/REPL.md](docs/REPL.md) for full REPL documentation.
-
-## Migration Guide
-
-### Migrating from Previous Versions
-
-If you're migrating from an older version that used method-based API calls, here's how to update your code:
-
-#### Old API (method-based)
-
-```typescript
-// Old way
-const leagues = await client.getLeagues({
-  page: 1,
-  per_page: 50,
-  include: ['country', 'seasons'],
-})
-
-const team = await client.getTeam(1, { include: ['squad'] })
-```
-
-#### New API (resource-based)
-
-```typescript
-// New way
-const leagues = await client.leagues.all().page(1).perPage(50).include(['country', 'seasons']).get()
-
-const team = await client.teams.byId(1).include(['squad']).get()
-```
-
-### Key Changes
-
-1. **Resource-based Architecture**: Methods are now organized by resource (leagues, teams, fixtures, etc.)
-2. **Fluent Query Builder**: Chain methods to build your query before calling `.get()`
-3. **Response Structure**: All responses now return `{ data: T }` instead of just `T`
-4. **Type Imports**: Import from `@withqwerty/sportmonks-typescript-sdk` instead of the old package name
-
-### Currently Missing Methods
-
-The following methods from the old SDK are not yet implemented:
-
-- Player career methods: `players.careerStatistics()`, `players.transfers()`, `players.career()`
-- Extended squad methods: `teams.extendedSquad()`
-
-These will be added in future releases.
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
@@ -564,7 +473,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Clone the repository
-git clone https://github.com/rahulkeerthi/sportmonks-typescript-sdk.git
+git clone https://github.com/utrechtsedev/sportmonks-ts-sdk
 
 # Install dependencies
 npm install
@@ -578,13 +487,13 @@ npm run build
 
 ## Support
 
-- **Documentation**: [Full API Reference](https://github.com/rahulkeerthi/sportmonks-typescript-sdk/wiki)
-- **Issues**: [GitHub Issues](https://github.com/rahulkeerthi/sportmonks-typescript-sdk/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/rahulkeerthi/sportmonks-typescript-sdk/discussions)
+- **Issues**: [GitHub Issues](https://github.com/utrechtsedev/sportmonks-ts-sdk/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/utrechtsedev/sportmonks-ts-sdk/discussions)
 - **SportMonks API**: [Official API Documentation](https://docs.sportmonks.com/football)
 
 ## Credits
 
+Forked and extended by [Utrechtsedev](https://github.com/utrechtsedev)
 Built with ❤️ by [Rahul Keerthi](https://github.com/rahulkeerthi)
 
 Special thanks to SportMonks for providing an excellent sports data API.
